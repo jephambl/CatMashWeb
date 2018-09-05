@@ -1,0 +1,21 @@
+﻿@model CatMashWeb.ViewModels.CatCandidatesRankingViewModel
+
+@{
+    ViewData["Title"] = "Score list";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+@foreach (var cat in Model.CatCandidates)
+{
+
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@cat.ImgUrl" class="img-responsive" style="width:100%" />
+        </div>
+        <div class="col-md-6">
+            <h1 class="display-1 text-center"> @cat.Score</h1>
+        </div>
+    </div>
+    <br>
+}

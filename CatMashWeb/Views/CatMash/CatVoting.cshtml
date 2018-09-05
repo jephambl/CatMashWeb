@@ -1,0 +1,76 @@
+﻿@model CatMashWeb.ViewModels.CatVotingViewModel
+
+@{
+    ViewData["Title"] = "Vote";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+@Html.HiddenFor(m => m.CatIdx)
+
+<div class="row">
+    <div class="col-md-12">
+        Were we let in for our looks? No. Will we be judged on them? Yes.
+        <br>
+        Vote now ! Click to Choose
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-6" style="height: 450px;">
+        <img src="@Model.CatCandidateLeft.ImgUrl" class="img-responsive" style="width:100%;height:100%" onclick="CatVoting(1)" />
+    </div>
+    <div class="col-md-6" style="height: 450px;">
+        <img src="@Model.CatCandidateRight.ImgUrl" class="img-responsive" style="width:100%;height:100%" onclick="CatVoting(0)" />
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <a href="/Catmash/CatVoting/" title="Next Players">→</a>
+    </div>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-md-12 text-center">
+        <a href="/Catmash/CatCandidatesRanking" class="bottom">Top 100</a>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+        var urlCatVoting = "@this.Url.Action("CatVoting")";
+        function CatVoting() {
+            alert($("#CatIdx").val());
+
+            $.ajax({
+                url: urlCatVoting,
+                type: 'POST',
+                data: {
+                    catIdx: $("#CatIdx").val(),
+                    //isLeft: 1
+                },
+                success:
+                    successCallback,
+                    //function (data, textStatus, xhr) {
+                    //if (data) {
+                    //    alert("ok");
+                    //}
+                    //else {
+                    //    alert("err");
+                    //}
+                },
+                error: function (x, y, z) {
+                }
+            });
+        }
+
+        function successCallback() {
+            // Do stuff before send
+        }
+    </script>
+}
