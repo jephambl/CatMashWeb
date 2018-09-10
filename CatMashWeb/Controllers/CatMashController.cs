@@ -27,7 +27,6 @@ namespace CatMashWeb.Controllers
         {
             var catCandidates = _catService.UpdateCatScore(catVotingViewModel.CatIdSelected);
 
-            //return RedirectToAction("CatVoting", new { catVotingViewModel.IdxCat });
             return RedirectToAction("CatVoting");
         }
 

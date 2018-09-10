@@ -58,8 +58,6 @@ namespace CatMashWeb
                     template: "{controller=CatMash}/{action=CatVoting}/{id?}");
 
             });
-
-
         }
     }
 }

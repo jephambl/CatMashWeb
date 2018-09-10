@@ -1,0 +1,13 @@
+[
+  {
+    "outputFileName": "wwwroot/js/catVoting.min.js",
+    "inputFiles": [
+      "wwwroot/js/catVoting.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]
