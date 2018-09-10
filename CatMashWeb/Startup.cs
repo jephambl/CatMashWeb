@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CatMashWeb.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,8 +31,9 @@ namespace CatMashWeb
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddScoped<ICatService, CatService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,8 +55,11 @@ namespace CatMashWeb
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=CatMash}/{action=CatVoting}/{catIdx?}");
+                    template: "{controller=CatMash}/{action=CatVoting}/{id?}");
+
             });
+
+
         }
     }
 }

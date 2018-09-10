@@ -15,31 +15,60 @@ namespace CatMashWeb.Controllers
 {
     public class CatMashController : Controller
     {
-        public IActionResult CatVoting(int catIdx = 0)
-        {
-            var catsService = new CatsService();
-            var catCandidates = catsService.GetCatCandidates();
+        private readonly ICatService _catService;
 
-            var catVotingViewModel = new CatVotingViewModel
+        public CatMashController(ICatService catService)
+        {
+            _catService = catService;
+        }
+
+        [HttpPost]
+        public IActionResult UpdateCatScore(CatVotingViewModel catVotingViewModel)
+        {
+            var catCandidates = _catService.UpdateCatScore(catVotingViewModel.CatIdSelected);
+
+            //return RedirectToAction("CatVoting", new { catVotingViewModel.IdxCat });
+            return RedirectToAction("CatVoting");
+        }
+
+        public IActionResult CatVoting(int idxCat = 0)
+        {
+            var catCandidates = _catService.GetCatCandidates();
+
+            var catVotingViewModel = new CatVotingViewModel();
+
+            // a mettre dans le service
+            if (idxCat == 0)
             {
-                CatCandidateLeft = (catCandidates.ToArray().ElementAt(catIdx++)),
-                CatCandidateRight = (catCandidates.ToArray().ElementAt(catIdx)),
-                CatIdx = catIdx
-            };
+                var random = new Random();
+                idxCat = random.Next(0, 97);
+            }
+
+            // idem : creer 1 fct GetCat(idx) dans le service
+            catVotingViewModel.CatCandidateLeft = (catCandidates.ToArray().ElementAt(idxCat));
+            idxCat = idxCat + 1;
+            catVotingViewModel.CatCandidateRight = (catCandidates.ToArray().ElementAt(idxCat));
+            catVotingViewModel.IdxCat = idxCat;
 
             return View(catVotingViewModel);
         }
 
         public IActionResult CatCandidatesRanking()
-        //public IActionResult CatScoreResult()
         {
-            var catsService = new CatsService();
-            var catsScores = catsService.GetCatCandidates();
+            var catCandidates = _catService.GetCatCandidates();
+
+            //mock
+            foreach (var catCandidate in catCandidates)
+            {
+                var random = new Random();
+                catCandidate.Score = random.Next(0, 80);
+            }
 
             var catCandidatesRankingViewModel = new CatCandidatesRankingViewModel()
             {
-                CatCandidates = catsScores
+                CatCandidates = catCandidates.OrderByDescending(c => c.Score).ToList()
             };
+
             return View(catCandidatesRankingViewModel);
         }
 

@@ -8,6 +8,8 @@ namespace CatMashWeb.ViewModels
     {
         public CatCandidate CatCandidateLeft { get; set; }
         public CatCandidate CatCandidateRight { get; set; }
-        public int CatIdx { get; set; }
+        public int IdxCat { get; set; }
+
+        public string CatIdSelected { get; set; }
     }
 }

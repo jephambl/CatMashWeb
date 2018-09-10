@@ -6,71 +6,52 @@
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
-@Html.HiddenFor(m => m.CatIdx)
+@*@using (Html.BeginForm("CatVoting", "CatMash", FormMethod.Post, new { id = "formCatVoting" }))*@
+@using (Html.BeginForm("UpdateCatScore", "CatMash", FormMethod.Post, new { id = "formCatVoting" }))
+{
+    @Html.HiddenFor(m => m.IdxCat)
 
-<div class="row">
-    <div class="col-md-12">
-        Were we let in for our looks? No. Will we be judged on them? Yes.
-        <br>
-        Vote now ! Click to Choose
+    @Model.IdxCat
+    @Html.TextBoxFor(m => m.CatIdSelected)
+    <div class="row">
+        <div class="col-md-12">
+            Were we let in for our looks? No. Will we be judged on them? Yes.
+            <br>
+            Vote now ! Click to Choose
+        </div>
     </div>
-</div>
-<br>
+    <br>
 
-<div class="row">
-    <div class="col-md-6" style="height: 450px;">
-        <img src="@Model.CatCandidateLeft.ImgUrl" class="img-responsive" style="width:100%;height:100%" onclick="CatVoting(1)" />
+    <div class="row">
+        <div class="col-md-6" style="height: 450px;">
+            <img src="@Model.CatCandidateLeft.ImgUrl" id="@Model.CatCandidateLeft.Id" class="img-responsive" style="width:100%;height:100%" onclick="CatVoting(this)" asp-append-version="true" />@Model.CatCandidateLeft.Id
+        </div>
+        <div class="col-md-6" style="height: 450px;">
+            <img src="@Model.CatCandidateRight.ImgUrl" id="@Model.CatCandidateRight.Id" class="img-responsive" style="width:100%;height:100%" onclick="CatVoting(this)" asp-append-version="true" />@Model.CatCandidateRight.Id
+        </div>
     </div>
-    <div class="col-md-6" style="height: 450px;">
-        <img src="@Model.CatCandidateRight.ImgUrl" class="img-responsive" style="width:100%;height:100%" onclick="CatVoting(0)" />
+    <br>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <a href="/Catmash/CatVoting/?idxCat=@(Model.IdxCat + 1)" title="Next Players">→</a>
+        </div>
     </div>
-</div>
-<br>
-<div class="row">
-    <div class="col-md-12 text-center">
-        <a href="/Catmash/CatVoting/" title="Next Players">→</a>
+    <br />
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <a href="/Catmash/CatCandidatesRanking" class="bottom">Top 100</a>
+        </div>
     </div>
-</div>
-
-<br />
-<div class="row">
-    <div class="col-md-12 text-center">
-        <a href="/Catmash/CatCandidatesRanking" class="bottom">Top 100</a>
-    </div>
-</div>
-
+}
 
 @section Scripts {
-
     <script>
-        var urlCatVoting = "@this.Url.Action("CatVoting")";
-        function CatVoting() {
-            alert($("#CatIdx").val());
-
-            $.ajax({
-                url: urlCatVoting,
-                type: 'POST',
-                data: {
-                    catIdx: $("#CatIdx").val(),
-                    //isLeft: 1
-                },
-                success:
-                    successCallback,
-                    //function (data, textStatus, xhr) {
-                    //if (data) {
-                    //    alert("ok");
-                    //}
-                    //else {
-                    //    alert("err");
-                    //}
-                },
-                error: function (x, y, z) {
-                }
-            });
-        }
-
-        function successCallback() {
-            // Do stuff before send
+        function CatVoting(obj) {
+            $("#CatIdSelected").val(obj.id);
+            //debugger;
+            //var newIdxCat = parseInt($("#IdxCat").val()) + 2;
+            //$("#IdxCat").val(newIdxCat);
+            $("#formCatVoting").submit();
         }
     </script>
 }
