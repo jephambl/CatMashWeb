@@ -8,14 +8,26 @@
 
 @foreach (var cat in Model.CatCandidates)
 {
-
     <div class="row">
         <div class="col-md-6">
             <img src="@cat.ImgUrl" class="img-responsive" style="width:100%" />
         </div>
-        <div class="col-md-6">
-            <h1 class="display-1 text-center"> @cat.Score</h1>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-4">
+            @{var p = "p" + @cat.Score.ToString(); }
+            <div class="c100 @p big">
+                <span>@cat.Score.ToString()</span>
+                <div class="slice">
+                    <div class="bar" style="transform: rotate(61.2deg);"></div>
+                    <div class="fill"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
         </div>
     </div>
     <br>
 }
+
+
