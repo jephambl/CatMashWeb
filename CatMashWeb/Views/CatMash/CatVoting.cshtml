@@ -37,25 +37,49 @@
             <a href="/Catmash/CatCandidatesRanking" class="bottom" style="font-size: 400%">Top 100</a>
         </div>
     </div>
+    <!-- modal -->
+    <div class="modal fade" id="modal_loader" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="loader"></div>
+                    <div clas="loader-txt">
+                        <p>Vote bien enregistré....</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+
 
 @section Scripts {
     @*a voir*@
     @*<script src="~/js/catVoting.min.js"></script>*@
     <script>
-            $(document).ready(function () {
-                InitEvents();
+        $(document).ready(function () {
+            InitEvents();
+        });
+
+        function InitEvents() {
+            /**
+             * Event Vote
+             */
+            $(".js-catcandidate").click(function (e) {
+                e.preventDefault();
+
+                $('#modal_loader').modal('show');
+                setTimeout(function () {
+                    CatVoting(this);
+                }, 850);
             });
 
-            function InitEvents() {
-                $(".js-catcandidate").on("click", function () {
-                    CatVoting(this);
-                });
-            }
+        }
 
-            function CatVoting(obj) {
-                $("#CatIdSelected").val(obj.id);
-                $("#formCatVoting").submit();
-            }
-        </script>
+        function CatVoting(obj) {
+            $("#CatIdSelected").val(obj.id);
+            $("#formCatVoting").submit();
+        }
+    </script>
 }
